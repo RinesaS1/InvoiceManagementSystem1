@@ -1,0 +1,106 @@
+# ============================================================
+# .gitignore — Invoice Management System
+# React + Node.js + .NET (ASP.NET Core) + VS Code + SQLite
+# ============================================================
+
+# ----- NODE / REACT (frontend) -----
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnp
+.pnp.js
+frontend/build/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# ----- .NET / ASP.NET CORE (backend) -----
+backend/bin/
+backend/obj/
+backend/**/*.user
+backend/**/*.suo
+backend/**/*.userosscache
+backend/**/*.sln.docstates
+*.user
+*.suo
+*.userprefs
+
+# Publish output
+backend/publish/
+backend/**/Properties/launchSettings.json
+
+# NuGet packages (restored automatically)
+backend/**/*.nupkg
+backend/**/packages/
+backend/**/.nuget/
+
+# ----- ENVIRONMENT & SECRETS -----
+.env
+.env.*
+!.env.example
+*.env
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+# Keep appsettings.json (base config without secrets)
+secrets.json
+**/secrets.json
+**/appsettings.secrets.json
+
+# JWT / Auth keys
+*.pem
+*.key
+*.pfx
+*.p12
+
+# ----- SQLITE DATABASE -----
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+
+# ----- VISUAL STUDIO CODE -----
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/*.code-workspace
+# Keep recommended extensions
+!.vscode/extensions.json
+
+# ----- VISUAL STUDIO -----
+.vs/
+*.rsuser
+*.VC.db
+
+# ----- OS FILES -----
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ----- LOGS & TEMP -----
+logs/
+*.log
+tmp/
+temp/
+.tmp/
+*.tmp
+
+# ----- COVERAGE & TEST RESULTS -----
+coverage/
+TestResults/
+*.trx
+*.coverage
