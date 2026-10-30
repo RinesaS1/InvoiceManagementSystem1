@@ -21,8 +21,12 @@ frontend/.env.test.local
 frontend/.env.production.local
 
 # ----- .NET / ASP.NET CORE (backend) -----
-backend/bin/
-backend/obj/
+bin/
+obj/
+**/bin/
+**/obj/
+backend/**/bin/
+backend/**/obj/
 backend/**/*.user
 backend/**/*.suo
 backend/**/*.userosscache
