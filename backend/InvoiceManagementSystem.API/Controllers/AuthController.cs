@@ -7,17 +7,6 @@ using System.Security.Claims;
 
 namespace InvoiceManagementSystem.API.Controllers;
 
-/// <summary>
-/// AuthController — Menaxhon regjistrimin, hyrjen dhe informacionin e sesionit.
-///
-/// Endpoint-et publike (pa autentifikim):
-///   POST /api/auth/register  → regjistron Customer të ri
-///   POST /api/auth/login     → kthen JWT token
-///
-/// Endpoint-et e mbrojtura:
-///   GET  /api/auth/me        → informacioni i përdoruesit aktual (çdo rol)
-///   GET  /api/auth/admin-test → vetëm Admin (demonstrim i autorizimit)
-/// </summary>
 [Route("api/auth")]
 public class AuthController : BaseApiController
 {
@@ -28,13 +17,7 @@ public class AuthController : BaseApiController
         _authService = authService;
     }
 
-    // ─── REGJISTRIM ──────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Regjistron një Customer të ri.
-    /// Ky endpoint është PUBLIK — nuk kërkon token.
-    /// Roli caktohet automatikisht si "Customer"; nuk mund të zgjidhet nga klienti.
-    /// </summary>
+    /// <summary>Regjistron një Customer të ri. Roli caktohet automatikisht si "Customer".</summary>
     [HttpPost("register")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<AuthResponseDto>), StatusCodes.Status201Created)]
@@ -52,13 +35,7 @@ public class AuthController : BaseApiController
         }
     }
 
-    // ─── LOGIN ───────────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Autentikon përdoruesin me email + fjalëkalim.
-    /// Ky endpoint është PUBLIK — nuk kërkon token.
-    /// Kthen JWT token që duhet dërguar me çdo kërkesë private.
-    /// </summary>
+    /// <summary>Autentikon përdoruesin dhe kthen JWT token.</summary>
     [HttpPost("login")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<AuthResponseDto>), StatusCodes.Status200OK)]
@@ -76,20 +53,13 @@ public class AuthController : BaseApiController
         }
     }
 
-    // ─── INFORMACIONI I SESIONIT ──────────────────────────────────────────────
-
-    /// <summary>
-    /// Kthen informacionin e përdoruesit aktual.
-    /// Kërkon autentifikim — çdo rol (Admin ose Customer).
-    /// Frontendit i shërben për të shfaqur emrin/rolin pa bërë kërkesë shtesë.
-    /// </summary>
+    /// <summary>Kthen informacionin e përdoruesit aktual nga JWT claims. Kërkon autentifikim.</summary>
     [HttpGet("me")]
     [Authorize]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public ActionResult<ApiResponse<object>> Me()
     {
-        // Lexo claims nga JWT token-i i verifikuar
         var userId   = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var email    = User.FindFirstValue(ClaimTypes.Email);
         var fullName = User.FindFirstValue(ClaimTypes.Name);
@@ -104,12 +74,7 @@ public class AuthController : BaseApiController
         });
     }
 
-    // ─── TEST AUTORIZIMI ──────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Endpoint vetëm për Admin — demonstron autorizimin bazuar në rol.
-    /// Customer që mundohet të hyjë merr 403 Forbidden.
-    /// </summary>
+    /// <summary>Endpoint vetëm për Admin — demonstron autorizimin bazuar në rol.</summary>
     [HttpGet("admin-test")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
@@ -124,10 +89,7 @@ public class AuthController : BaseApiController
         });
     }
 
-    /// <summary>
-    /// Endpoint vetëm për Customer — demonstron autorizimin bazuar në rol.
-    /// Admin që mundohet të hyjë merr 403 Forbidden.
-    /// </summary>
+    /// <summary>Endpoint vetëm për Customer — demonstron autorizimin bazuar në rol.</summary>
     [HttpGet("customer-test")]
     [Authorize(Roles = "Customer")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]

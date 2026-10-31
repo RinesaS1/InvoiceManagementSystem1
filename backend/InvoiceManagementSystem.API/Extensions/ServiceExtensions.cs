@@ -1,6 +1,5 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.OpenApi;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,16 +10,8 @@ using InvoiceManagementSystem.API.Services;
 
 namespace InvoiceManagementSystem.API.Extensions;
 
-/// <summary>
-/// ServiceExtensions — Metoda extension për të organizuar regjistrimin e shërbimeve.
-/// Ndan logjikën e konfigurimit nga Program.cs për ta mbajtur të pastër.
-/// </summary>
 public static class ServiceExtensions
 {
-    /// <summary>
-    /// Regjistron AppDbContext me SQLite si bazë të dhënash.
-    /// Connection string lexohet nga appsettings.json.
-    /// </summary>
     public static IServiceCollection AddDatabase(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -35,27 +26,19 @@ public static class ServiceExtensions
         return services;
     }
 
-    /// <summary>
-    /// Regjistron ASP.NET Core Identity me rolet Admin dhe Customer.
-    /// Identity menaxhon hashimin e fjalëkalimeve, validimin e përdoruesve
-    /// dhe sistemin e roleve.
-    /// </summary>
     public static IServiceCollection AddIdentityServices(
         this IServiceCollection services)
     {
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {
-            // ── Kërkesat e fjalëkalimit ──────────────────────────────────
             options.Password.RequireDigit = true;
             options.Password.RequireLowercase = true;
             options.Password.RequireUppercase = true;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 8;
 
-            // ── Kërkesat e përdoruesit ───────────────────────────────────
             options.User.RequireUniqueEmail = true;
 
-            // ── Kyçja e llogarisë pas tentativave të dështuara ───────────
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             options.Lockout.MaxFailedAccessAttempts = 5;
         })
@@ -66,9 +49,8 @@ public static class ServiceExtensions
     }
 
     /// <summary>
-    /// Konfiguron JWT Bearer Authentication.
-    /// Çdo kërkesë private duhet të ketë header-in:
-    ///   Authorization: Bearer {token}
+    /// Configures JWT Bearer Authentication.
+    /// Every protected request must include: Authorization: Bearer {token}
     /// </summary>
     public static IServiceCollection AddJwtAuthentication(
         this IServiceCollection services,
@@ -83,7 +65,6 @@ public static class ServiceExtensions
         services
             .AddAuthentication(options =>
             {
-                // JWT është skema e paracaktuar — çdo [Authorize] do ta përdorë
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
             })
@@ -99,14 +80,12 @@ public static class ServiceExtensions
                     ValidAudience            = audience,
                     IssuerSigningKey         = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(jwtKey)),
-                    // Zero tolerance: token skadon saktësisht kur thotë
                     ClockSkew = TimeSpan.Zero
                 };
             });
 
         services.AddAuthorization();
 
-        // Regjistro shërbimet e aplikacionit
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IInvoiceService, InvoiceService>();
         services.AddScoped<IPaymentService, PaymentService>();
@@ -115,10 +94,6 @@ public static class ServiceExtensions
         return services;
     }
 
-    /// <summary>
-    /// Konfiguron CORS (Cross-Origin Resource Sharing) për të lejuar
-    /// frontendin React (zakonisht http://localhost:3000) të komunikojë me API-n.
-    /// </summary>
     public static IServiceCollection AddCorsPolicy(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -142,10 +117,6 @@ public static class ServiceExtensions
         return services;
     }
 
-    /// <summary>
-    /// Konfiguron OpenAPI me metadatat e API-t.
-    /// Scalar UI do t'i shfaqë këto te /scalar/v1.
-    /// </summary>
     public static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services)
     {
         services.AddOpenApi("v1", options =>

@@ -38,7 +38,7 @@ public class InvoiceService : IInvoiceService
             .AsNoTracking()
             .AsQueryable();
 
-        // SIGURI: Nëse nuk është Admin, kufizohet rreptësisht te faturat e veta
+        // Security: non-admin users can only see their own invoices
         if (!isAdmin)
         {
             query = query.Where(i => i.CustomerId == currentUserId);
@@ -85,11 +85,10 @@ public class InvoiceService : IInvoiceService
         if (invoice == null)
             return null;
 
-        // SIGURI / VERIFIKIMI I PRONËSISË NË BACKEND:
-        // Customer mund të shohë VETËM faturën që i takon atij
+        // Security: customer can only view their own invoice; return null to avoid revealing other invoices
         if (!isAdmin && invoice.CustomerId != currentUserId)
         {
-            return null; // Kthejmë null për të mos zbuluar ekzistencën e faturave të huaja
+            return null;
         }
 
         return MapToDto(invoice);
@@ -110,7 +109,7 @@ public class InvoiceService : IInvoiceService
         if (invoice == null)
             return null;
 
-        // SIGURI / VERIFIKIMI I PRONËSISË NË BACKEND:
+        // Security: customer can only download their own invoice
         if (!isAdmin && invoice.CustomerId != currentUserId)
         {
             return null;

@@ -1,12 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import './Badge.css';
 
-/**
- * Badge for Invoice and Payment statuses.
- *
- * InvoiceStatus:  0 = Unpaid, 1 = Paid
- * PaymentStatus:  0 = Pending, 1 = Confirmed, 2 = Rejected
- */
+// InvoiceStatus:  0 = Unpaid, 1 = Paid
+// PaymentStatus:  0 = Pending, 1 = Confirmed, 2 = Rejected
 
 const INVOICE_STATUS_CLASSES = {
   0: 'badge-unpaid',
@@ -42,4 +38,3 @@ export function PaymentStatusBadge({ status }) {
   return <span className={`badge ${className}`}>{label}</span>;
 }
 
-export default { InvoiceStatusBadge, PaymentStatusBadge };

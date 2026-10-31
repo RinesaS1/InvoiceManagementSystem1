@@ -200,9 +200,6 @@ function AdminInvoices() {
               onClick={() => {
                 setSearch('');
                 setSearchParams({});
-                invoiceService.getAll({ search: '', status: statusFilter }).then((res) => {
-                  if (res?.success) setInvoices(res.data || []);
-                });
               }}
             >
               {t('invoices.clearBtn')}
