@@ -57,7 +57,7 @@ access control, and end-to-end integration.
 
 ## Screenshots
 
-The screenshots below provide an overview of the main application pages.
+Below is a quick overview of the main application screens.
 
 <table>
   <tr>
@@ -82,12 +82,22 @@ The screenshots below provide an overview of the main application pages.
   </tr>
   <tr>
     <td align="center" width="50%">
+      <strong>Invoice Details</strong><br/>
+      <img src="./screenshots/invoice-details.png" width="420" alt="Invoice Details" />
+    </td>
+    <td align="center" width="50%">
       <strong>PDF Invoice</strong><br/>
       <img src="./screenshots/pdf-invoice.png" width="420" alt="PDF Invoice" />
     </td>
+  </tr>
+  <tr>
     <td align="center" width="50%">
       <strong>Manage Customers</strong><br/>
       <img src="./screenshots/manage_customers.png" width="420" alt="Manage Customers" />
+    </td>
+    <td align="center" width="50%">
+      <strong>Customer Flow</strong><br/>
+      <img src="./screenshots/customer-invoices.png" width="420" alt="Customer Flow" />
     </td>
   </tr>
 </table>
