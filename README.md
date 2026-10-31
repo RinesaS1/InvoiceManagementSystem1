@@ -63,39 +63,32 @@ The screenshots below provide an overview of the main application pages.
   <tr>
     <td align="center" width="50%">
       <strong>Admin Dashboard</strong><br/>
-      <img src="./screenshots/admin-dashboard.png" width="700" height="394" alt="Admin Dashboard" />
+      <img src="./screenshots/admin-dashboard.png" width="420" alt="Admin Dashboard" />
     </td>
     <td align="center" width="50%">
       <strong>Admin Invoices</strong><br/>
-      <img src="./screenshots/admin-invoices.png" width="700" height="394" alt="Admin Invoices" />
+      <img src="./screenshots/admin-invoices.png" width="420" alt="Admin Invoices" />
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
       <strong>Create Invoice</strong><br/>
-      <img src="./screenshots/create-invoices.png" width="700" height="394" alt="Create Invoice" />
+      <img src="./screenshots/create-invoices.png" width="420" alt="Create Invoice" />
     </td>
     <td align="center" width="50%">
       <strong>Customer Invoices</strong><br/>
-      <img src="./screenshots/customer-invoices.png" width="700" height="394" alt="Customer Invoices" />
+      <img src="./screenshots/customer-invoices.png" width="420" alt="Customer Invoices" />
     </td>
   </tr>
   <tr>
-    <td align="center" width="50%">
-      <strong>Invoice Details</strong><br/>
-      <img src="./screenshots/invoice-details.png" width="700" height="394" alt="Invoice Details" />
-    </td>
     <td align="center" width="50%">
       <strong>PDF Invoice</strong><br/>
-      <img src="./screenshots/pdf-invoice.png" width="700" height="394" alt="PDF Invoice" />
+      <img src="./screenshots/pdf-invoice.png" width="420" alt="PDF Invoice" />
     </td>
-  </tr>
-  <tr>
     <td align="center" width="50%">
       <strong>Manage Customers</strong><br/>
-      <img src="./screenshots/manage_customers.png" width="700" height="394" alt="Manage Customers" />
+      <img src="./screenshots/manage_customers.png" width="420" alt="Manage Customers" />
     </td>
-    <td width="50%"></td>
   </tr>
 </table>
 
