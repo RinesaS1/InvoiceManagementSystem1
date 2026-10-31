@@ -1,236 +1,387 @@
 # Invoice Management System
 
-A full-stack Invoice Management System built with **ASP.NET Core Web API** and **React**. The application provides role-based portal experiences for Administrators and Customers, server-side PDF invoice generation, a manual payment verification workflow, and full bilingual support (English and Albanian).
+A full-stack Invoice Management System built with **ASP.NET Core Web
+API** and **React**. It provides separate experiences for Administrators
+and Customers, server-side PDF invoice generation, manual payment
+verification, and a bilingual interface in English and Albanian.
 
-This project was developed as a technical recruitment assignment to demonstrate clean software architecture, secure authentication, and end-to-end full-stack integration.
+This project was developed as a technical recruitment assignment to
+demonstrate full-stack development, secure authentication, role-based
+access control, and end-to-end integration.
 
----
+------------------------------------------------------------------------
 
 ## Key Features
 
 ### Administrator Portal
-- **Real-Time Dashboard**: Displays aggregate metrics including total invoices, paid invoices, unpaid invoices, pending payment verifications, and total revenue.
-- **Invoice Management**: Create, view, edit, filter by status (Paid / Unpaid), search by keywords, and delete invoices (restricted to unpaid invoices without confirmed payments).
-- **Customer Directory**: View registered customers, their contact information, registration dates, and associated invoice counts.
-- **Payment Verification Workflow**: Review customer payment notifications ("I Have Paid"), inspect invoice details, and either:
-  - **Confirm** payment: Updates payment status to *Confirmed* and automatically marks the invoice as *Paid*.
-  - **Reject** payment: Requires a mandatory rejection reason, marks payment as *Rejected*, and keeps the invoice *Unpaid*.
+
+-   **Dashboard:** Overview of total invoices, paid and unpaid invoices,
+    pending payment verifications, and total revenue.
+-   **Invoice Management:** Create, view, edit, search, filter, and
+    delete eligible invoices. Invoices with confirmed payments cannot be
+    deleted.
+-   **Customer Management:** View registered customers, contact details,
+    registration dates, and invoice counts.
+-   **Payment Verification:** Review customer payment notifications and
+    confirm or reject them. Rejection requires a reason.
 
 ### Customer Portal
-- **Customer Dashboard**: Overview of personal invoices, total invoiced amounts, outstanding balances, and pending submissions.
-- **Strict Data Isolation**: Customers can only view, download, and notify payments for invoices issued specifically to them.
-- **Invoice Details & History**: View detailed invoice breakdown and the chronological history of submitted payment verification requests.
-- **Payment Notification ("I Have Paid")**: Submit payment execution notifications for unpaid invoices. Duplicate pending submissions for the same invoice are prevented.
-- **Rejection Feedback**: If a payment submission is rejected, the customer can view the administrator's reason and resubmit a notification once resolved.
 
-### Core System Features
-- **Server-Side PDF Generation**: Generates clean, professional PDF billing documents using QuestPDF. Downloaded invoices exclude internal payment status badges to serve as clean payment documents.
-- **Role-Based Access Control (RBAC)**: Secure authorization enforced on both frontend routes (React Router protected route wrappers) and backend API endpoints (`[Authorize(Roles = "Admin")]` and `[Authorize(Roles = "Customer")]`).
-- **Secure Public Registration**: Public self-registration assigns the *Customer* role exclusively. Administrative accounts cannot be created through the public registration form.
-- **Bilingual Interface (i18n)**: Seamless language switcher in the navigation bar supporting **English (en)** and **Albanian (sq)** with full translation parity across all labels, validation messages, and system alerts. Language preference persists across browser refreshes via `localStorage`.
-- **Manual Payment Verification**: Designed around an administrative review model. There is no real bank or third-party payment gateway integration; all confirmations are processed manually by administrators.
+-   **Dashboard:** View personal invoice totals, outstanding balances,
+    and pending payment submissions.
+-   **My Invoices:** View and download invoices issued to the signed-in
+    customer.
+-   **Invoice Details & History:** Review invoice information and the
+    history of payment verification requests.
+-   **Payment Notifications:** Notify the administrator when an invoice
+    has been paid. Duplicate pending submissions are prevented.
+-   **Rejection Feedback:** View the administrator's rejection reason
+    and submit a new notification after resolving the issue.
 
----
+### Core Features
+
+-   **PDF Generation:** Generate downloadable invoice PDFs on the server
+    using QuestPDF.
+-   **Role-Based Access Control:** Protect frontend routes and backend
+    API endpoints according to Admin and Customer roles.
+-   **Secure Registration:** Public registration creates Customer
+    accounts only. Admin accounts are provisioned through the backend
+    configuration.
+-   **Bilingual Interface:** Switch between English and Albanian.
+    Language preferences persist across browser refreshes.
+-   **Manual Payment Review:** Payments are reviewed and confirmed by an
+    administrator. The application does not integrate with a bank or
+    external payment gateway.
+
+------------------------------------------------------------------------
+
+## Screenshots
+
+The screenshots below provide an overview of the main application pages.
+
+```{=html}
+<table>
+```
+```{=html}
+<tr>
+```
+```{=html}
+<td align="center" width="50%">
+```
+`<strong>`{=html}Admin Dashboard`</strong>`{=html}`<br/>`{=html}
+`<img src="./screenshots/admin-dashboard.png" width="700" height="394" alt="Admin Dashboard"/>`{=html}
+```{=html}
+</td>
+```
+```{=html}
+<td align="center" width="50%">
+```
+`<strong>`{=html}Admin Invoices`</strong>`{=html}`<br/>`{=html}
+`<img src="./screenshots/admin-invoices.png" width="700" height="394" alt="Admin Invoices"/>`{=html}
+```{=html}
+</td>
+```
+```{=html}
+</tr>
+```
+```{=html}
+<tr>
+```
+```{=html}
+<td align="center" width="50%">
+```
+`<strong>`{=html}Create Invoice`</strong>`{=html}`<br/>`{=html}
+`<img src="./screenshots/create-invoices.png" width="700" height="394" alt="Create Invoice"/>`{=html}
+```{=html}
+</td>
+```
+```{=html}
+<td align="center" width="50%">
+```
+`<strong>`{=html}Customer Invoices`</strong>`{=html}`<br/>`{=html}
+`<img src="./screenshots/customer-invoices.png" width="700" height="394" alt="Customer Invoices"/>`{=html}
+```{=html}
+</td>
+```
+```{=html}
+</tr>
+```
+```{=html}
+<tr>
+```
+```{=html}
+<td align="center" width="50%">
+```
+`<strong>`{=html}Invoice Details`</strong>`{=html}`<br/>`{=html}
+`<img src="./screenshots/invoice-details.png" width="700" height="394" alt="Invoice Details"/>`{=html}
+```{=html}
+</td>
+```
+```{=html}
+<td align="center" width="50%">
+```
+`<strong>`{=html}PDF Invoice`</strong>`{=html}`<br/>`{=html}
+`<img src="./screenshots/pdf-invoice.png" width="700" height="394" alt="PDF Invoice"/>`{=html}
+```{=html}
+</td>
+```
+```{=html}
+</tr>
+```
+```{=html}
+<tr>
+```
+```{=html}
+<td align="center" width="50%">
+```
+`<strong>`{=html}Manage Customers`</strong>`{=html}`<br/>`{=html}
+`<img src="./screenshots/manage_customers.png" width="700" height="394" alt="Manage Customers"/>`{=html}
+```{=html}
+</td>
+```
+```{=html}
+<td width="50%">
+```
+```{=html}
+</td>
+```
+```{=html}
+</tr>
+```
+```{=html}
+</table>
+```
+
+------------------------------------------------------------------------
 
 ## Technologies Used
 
 ### Backend
-- **Framework**: .NET 10.0 (C#) / ASP.NET Core Web API
-- **Database & ORM**: SQLite with Entity Framework Core 10.0
-- **Authentication**: ASP.NET Core Identity with JWT (JSON Web Token) Bearer authentication
-- **Document Generation**: QuestPDF (v2026.9.1)
-- **API Documentation**: Scalar OpenAPI (`Scalar.AspNetCore` v2.4.1) accessible at `/scalar/v1`
+
+-   **Framework:** .NET 10.0 / ASP.NET Core Web API
+-   **Database & ORM:** SQLite with Entity Framework Core 10.0
+-   **Authentication:** ASP.NET Core Identity with JWT Bearer
+    authentication
+-   **PDF Generation:** QuestPDF
+-   **API Documentation:** Scalar OpenAPI
 
 ### Frontend
-- **Library**: React 19 (JavaScript, ES Modules)
-- **Build Tool**: Vite (v8.3.5)
-- **Routing**: React Router DOM (v7)
-- **HTTP Client**: Axios with request/response interceptors for JWT token attachment and 401/403 status handling
-- **Internationalization**: `i18next`, `react-i18next`, and `i18next-browser-languagedetector`
-- **Styling**: Modern pure CSS3 with CSS custom properties, responsive grid/flexbox layouts, and mobile navigation
 
----
+-   **Library:** React 19 (JavaScript, ES Modules)
+-   **Build Tool:** Vite
+-   **Routing:** React Router DOM
+-   **HTTP Client:** Axios with request/response interceptors
+-   **Internationalization:** i18next and react-i18next
+-   **Styling:** CSS3 with custom properties and responsive layouts
 
-## Screenshots
-
-> Place your application screenshots inside the `screenshots/` directory. Recommended captures:
-
-| Screenshot | Description |
-|---|---|
-| `screenshots/admin-dashboard.png` | Admin Dashboard with financial statistics and pending payment queue |
-| `screenshots/admin-invoices.png` | Admin invoice management table with search and status filtering |
-| `screenshots/create-invoices.png` | Admin creates a new invoice |
-| `screenshots/customer-invoices.png` | Customer invoice list with status indicators and "I Have Paid" action |
-| `screenshots/invoice-details.png` | Detailed invoice view with payment submission history |
-| `screenshots/pdf-invoice.png` | Downloaded QuestPDF invoice document |
-| `screenshots/manage_customers.png` | Admin can manage customers |
-
----
+------------------------------------------------------------------------
 
 ## Project Structure
 
-```text
+``` text
 InvoiceManagementSystem1/
 ├── backend/
 │   └── InvoiceManagementSystem.API/
-│       ├── Controllers/          # API Controllers (Auth, Invoices, Payments, Customers)
-│       ├── Data/                 # AppDbContext, DbSeeder
-│       ├── DTOs/                 # Request and Response Data Transfer Objects
-│       ├── Extensions/           # Service registration extensions (JWT, DB, CORS, OpenAPI)
-│       ├── Middleware/           # Global exception handling middleware
-│       ├── Migrations/           # Entity Framework Core migrations
-│       ├── Models/               # Domain models (ApplicationUser, Invoice, Payment, Enums)
-│       ├── Services/             # Business logic (Auth, Invoice, Payment, PDF generation)
-│       ├── appsettings.json      # Base application configuration
+│       ├── Controllers/
+│       ├── Data/
+│       ├── DTOs/
+│       ├── Extensions/
+│       ├── Middleware/
+│       ├── Migrations/
+│       ├── Models/
+│       ├── Services/
+│       ├── appsettings.json
 │       └── InvoiceManagementSystem.API.csproj
-│
 ├── frontend/
-│   ├── public/                   # Static assets (favicons, SVG icons)
+│   ├── public/
 │   ├── src/
-│   │   ├── admin/                # Admin pages (Dashboard, Invoices, Customers, Payments)
-│   │   ├── customer/             # Customer pages (Dashboard, Invoices, Details)
-│   │   ├── components/           # Reusable UI components (Navbar, Layout, Buttons, Modals)
-│   │   ├── context/              # Authentication context (AuthContext)
-│   │   ├── locales/              # Translation resource dictionaries (en.json, sq.json)
-│   │   ├── pages/                # Public pages (Login, Register, Unauthorized, NotFound)
-│   │   ├── services/             # Axios API service modules
-│   │   ├── App.jsx               # Route definitions and access control
-│   │   └── main.jsx              # React application entry point
-│   ├── .env.example              # Environment variables template
+│   │   ├── admin/
+│   │   ├── customer/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── locales/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── .env.example
 │   └── package.json
-│
-├── screenshots/                  # Application screenshot gallery
+├── screenshots/
 ├── .gitignore
 └── README.md
 ```
 
----
+------------------------------------------------------------------------
 
 ## Prerequisites
 
-Before running the project, ensure you have the following installed on your machine:
+Make sure the following tools are installed:
 
-- **[.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)** or higher
-- **[Node.js](https://nodejs.org/)** (v18.x, v20.x, or higher) and **npm**
-- **Git**
-- *Note*: SQLite is embedded via EF Core packages; no external database server installation is needed.
+-   [.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+    or later
+-   [Node.js](https://nodejs.org/) (v18.x, v20.x, or later) and npm
+-   Git
 
----
+**Database:** SQLite is included through the Entity Framework Core
+packages. No separate database server is required.
+
+------------------------------------------------------------------------
 
 ## Installation and Setup
 
 ### 1. Clone the Repository
-```bash
+
+``` bash
 git clone <repository-url>
 cd InvoiceManagementSystem1
 ```
 
-### 2. Configure and Run Backend
+### 2. Configure and Run the Backend
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend/InvoiceManagementSystem.API
-   ```
+Navigate to the backend project:
 
-2. Create a local development configuration file named `appsettings.Development.json` (this file is excluded by `.gitignore` to prevent committing credentials):
-   ```json
-   {
-     "Jwt": {
-       "Key": "YOUR_LONG_SECURE_JWT_SECRET_KEY_MINIMUM_32_CHARACTERS",
-       "Issuer": "InvoiceManagementSystem",
-       "Audience": "InvoiceManagementSystemUsers",
-       "ExpiresInMinutes": 120
-     },
-     "AdminSeed": {
-       "Email": "admin@example.com",
-       "Password": "AdminPassword123!",
-       "FullName": "System Administrator"
-     }
-   }
-   ```
+``` bash
+cd backend/InvoiceManagementSystem.API
+```
 
-   > [!NOTE]
-   > On application launch, `DbSeeder` automatically creates the `Admin` and `Customer` identity roles. If no user exists with the `AdminSeed:Email` address, it automatically provisions the initial administrator account with the configured credentials. Passwords are securely hashed by ASP.NET Core Identity.
+Create an `appsettings.Development.json` file in the backend project
+directory. This local file is excluded from version control so that
+development secrets are not committed.
 
-3. Restore dependencies and start the backend API:
-   ```bash
-   dotnet restore
-   dotnet run --launch-profile http
-   ```
+Use the following structure and replace the example values with your own
+secure credentials:
 
-   The backend will be available at:
-   - **API Base URL**: `http://localhost:5000`
-   - **Interactive API Documentation (Scalar UI)**: `http://localhost:5000/scalar/v1`
-   - **Health Check Endpoint**: `http://localhost:5000/api/health`
+``` json
+{
+  "Jwt": {
+    "Key": "YOUR_LONG_SECURE_JWT_SECRET_KEY_MINIMUM_32_CHARACTERS",
+    "Issuer": "InvoiceManagementSystem",
+    "Audience": "InvoiceManagementSystemUsers",
+    "ExpiresInMinutes": 120
+  },
+  "AdminSeed": {
+    "Email": "admin@example.com",
+    "Password": "AdminPassword123!",
+    "FullName": "System Administrator"
+  }
+}
+```
 
-### 3. Configure and Run Frontend
+On startup, `DbSeeder` creates the Admin and Customer roles. If an
+administrator with the configured email does not already exist, the
+application creates the initial Admin account. ASP.NET Core Identity
+securely hashes account passwords.
 
-1. Open a new terminal window and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+Restore dependencies and start the API:
 
-2. Create a `.env` file based on `.env.example`:
-   ```bash
-   # On Windows PowerShell:
-   Copy-Item .env.example .env
+``` bash
+dotnet restore
+dotnet run --launch-profile http
+```
 
-   # On Linux/macOS:
-   cp .env.example .env
-   ```
+The backend runs at:
 
-   Ensure `.env` contains:
-   ```env
-   VITE_API_URL=http://localhost:5000
-   ```
+-   **API:** `http://localhost:5000`
+-   **Scalar API Documentation:** `http://localhost:5000/scalar/v1`
+-   **Health Check:** `http://localhost:5000/api/health`
 
-3. Install frontend dependencies and start the Vite development server:
-   ```bash
-   npm install
-   npm run dev
-   ```
+### 3. Configure and Run the Frontend
 
-   The frontend application will be accessible at:
-   - **Frontend URL**: `http://localhost:5173`
+Open a second terminal and navigate to the frontend directory from the
+repository root:
 
----
+``` bash
+cd frontend
+```
+
+Create a `.env` file from the example:
+
+**Windows PowerShell**
+
+``` powershell
+Copy-Item .env.example .env
+```
+
+**Linux / macOS**
+
+``` bash
+cp .env.example .env
+```
+
+Set the API URL in `.env`:
+
+``` env
+VITE_API_URL=http://localhost:5000
+```
+
+Install dependencies and start the frontend:
+
+``` bash
+npm install
+npm run dev
+```
+
+The frontend runs at `http://localhost:5173`.
+
+------------------------------------------------------------------------
 
 ## How to Test the Application
 
-Follow this end-to-end workflow to test all application capabilities:
+Make sure both the backend and frontend are running before testing.
 
-1. **Start Applications**: Ensure both the backend (`http://localhost:5000`) and frontend (`http://localhost:5173`) are running.
-2. **Register a Customer Account**:
-   - Open `http://localhost:5173/register` in your browser.
-   - Register a new customer (e.g., `john@example.com`, password with at least 8 characters, digit, uppercase, and lowercase).
-   - After registration, you are redirected to the Login page.
-3. **Log In as Administrator**:
-   - Log in using the credentials defined in your `AdminSeed` configuration (e.g., `admin@example.com`).
-   - You will land on the **Admin Dashboard** displaying real-time metrics.
-4. **Create an Invoice**:
-   - Navigate to **Invoices** > **Create Invoice** (or click "Create Invoice" on the dashboard).
-   - Select the newly registered customer from the dropdown.
-   - Enter an amount (e.g., `250.00`), issue date, due date, description, and optional notes.
-   - Submit the form. The invoice appears in the invoice list with status **Unpaid**.
-5. **Log In as the Customer**:
-   - Log out of the Admin account and log in with the Customer credentials.
-   - On the **Customer Dashboard**, observe that the invoice is reflected in personal statistics.
-   - Navigate to **My Invoices** and open the invoice details.
-   - Click **Download PDF** to verify the server-generated invoice document.
-6. **Submit a Payment Notification**:
-   - On the invoice details page, click **I Have Paid**.
-   - The invoice state updates with a banner indicating that the payment submission is pending administrator review.
-7. **Verify Payment as Administrator**:
-   - Log back in as Admin and open the **Payment Verification** page.
-   - You will see the pending payment submission under the **Pending** tab.
-   - **Scenario A (Confirm)**: Click **Confirm**. The payment is marked as *Confirmed*, and the related invoice status becomes *Paid*.
-   - **Scenario B (Reject)**: Click **Reject**, enter a rejection reason (e.g., "Transaction reference not found in bank statement"), and confirm. The payment is marked as *Rejected*, and the invoice remains *Unpaid*.
-8. **Check Updated Status as Customer**:
-   - Log in as the Customer.
-   - If confirmed: The invoice displays the *Paid* status.
-   - If rejected: The customer sees the administrator's rejection explanation and is given the option to re-notify once resolved.
-9. **Test Bilingual Switching**:
-   - Use the language selector (**SQ \| EN**) in the top navigation bar at any time to verify that all interface labels, buttons, tables, and notifications translate immediately between English and Albanian.
+### 1. Create a Customer Account
 
----
+1.  Open `http://localhost:5173/register`.
+2.  Register a customer account using a valid email and password.
+3.  Return to the login page.
 
+### 2. Log In as Admin and Create an Invoice
+
+1.  Log in using the credentials configured under `AdminSeed`.
+2.  Open **Invoices** and select **Create Invoice**.
+3.  Select the customer you registered.
+4.  Enter the invoice amount, issue date, due date, description, and any
+    optional notes.
+5.  Submit the form. The invoice should appear with an **Unpaid**
+    status.
+
+### 3. Test the Customer Workflow
+
+1.  Log out of the Admin account and log in using the Customer account.
+2.  Open **My Invoices** and select the invoice.
+3.  Review the invoice details and download the PDF.
+4.  Select **I Have Paid** to submit a payment notification.
+
+### 4. Verify the Payment as Admin
+
+1.  Log back in as Admin and open **Payment Verification**.
+2.  Find the pending customer submission.
+3.  Test either action:
+    -   **Confirm:** The payment becomes Confirmed and the invoice
+        status changes to Paid.
+    -   **Reject:** Enter a rejection reason. The payment becomes
+        Rejected and the invoice remains Unpaid.
+
+### 5. Check the Result as Customer
+
+Log in as the Customer again: - If the payment was confirmed, the
+invoice should show **Paid**. - If it was rejected, the customer can
+view the rejection reason and submit a new payment notification after
+resolving the issue.
+
+### 6. Test Language Switching
+
+Use the language selector (**SQ / EN**) in the navigation bar to switch
+between Albanian and English. Check that page labels, buttons,
+validation messages, and notifications update accordingly.
+
+------------------------------------------------------------------------
+
+## Important Notes
+
+-   Payment verification is a manual administrative process. No real
+    bank or third-party payment gateway is connected.
+-   Admin accounts are created through the backend seeding
+    configuration, not through public registration.
+-   Use your own local development credentials. Do not commit
+    `appsettings.Development.json` or other files containing secrets.
