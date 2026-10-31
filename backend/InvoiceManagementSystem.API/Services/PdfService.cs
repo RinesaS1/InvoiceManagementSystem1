@@ -60,7 +60,7 @@ public class PdfService : IPdfService
                         .FontColor(Colors.Grey.Darken1);
                 });
 
-                // Kolona Djathtas: Numri i Faturës dhe Statusi
+                // Kolona Djathtas: Numri i Faturës
                 row.RelativeItem().AlignRight().Column(col =>
                 {
                     col.Item().Text($"FATURË")
@@ -72,21 +72,6 @@ public class PdfService : IPdfService
                         .FontSize(11)
                         .SemiBold()
                         .FontColor(Colors.Blue.Darken2);
-
-                    // Badge i Statusit (Paid ose Unpaid)
-                    var isPaid = invoice.Status == InvoiceStatus.Paid;
-                    var badgeBg = isPaid ? Colors.Green.Lighten4 : Colors.Red.Lighten4;
-                    var badgeText = isPaid ? Colors.Green.Darken3 : Colors.Red.Darken3;
-                    var statusTitle = isPaid ? "E PAGUAR (PAID)" : "E PAPAGUAR (UNPAID)";
-
-                    col.Item().PaddingTop(4).Container()
-                        .Background(badgeBg)
-                        .PaddingVertical(3)
-                        .PaddingHorizontal(8)
-                        .Text(statusTitle)
-                        .FontSize(9)
-                        .Bold()
-                        .FontColor(badgeText);
                 });
             });
 
