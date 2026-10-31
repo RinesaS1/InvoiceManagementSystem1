@@ -1,0 +1,22 @@
+.manage-customers-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.customer-count-badge {
+  font-size: 0.9rem;
+  color: var(--color-gray-600);
+}
+
+.invoice-count-pill {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  background: var(--color-gray-100);
+  border: 1px solid var(--color-gray-300);
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
