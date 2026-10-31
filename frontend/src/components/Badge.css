@@ -1,0 +1,18 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.badge-unpaid    { background: #fef3c7; color: #92400e; }
+.badge-paid      { background: #d1fae5; color: #065f46; }
+.badge-pending   { background: #dbeafe; color: #1e40af; }
+.badge-confirmed { background: #d1fae5; color: #065f46; }
+.badge-rejected  { background: #fee2e2; color: #991b1b; }
+.badge-unknown   { background: #f3f4f6; color: #374151; }
+
