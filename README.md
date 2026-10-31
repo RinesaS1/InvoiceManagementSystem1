@@ -59,10 +59,11 @@ This project was developed as a technical recruitment assignment to demonstrate 
 |---|---|
 | `screenshots/admin-dashboard.png` | Admin Dashboard with financial statistics and pending payment queue |
 | `screenshots/admin-invoices.png` | Admin invoice management table with search and status filtering |
-| `screenshots/payment-verification.png` | Admin payment review screen showing confirm and reject options |
+| `screenshots/create-invoices.png` | Admin creates a new invoice |
 | `screenshots/customer-invoices.png` | Customer invoice list with status indicators and "I Have Paid" action |
 | `screenshots/invoice-details.png` | Detailed invoice view with payment submission history |
 | `screenshots/pdf-invoice.png` | Downloaded QuestPDF invoice document |
+| `screenshots/manage_customers.png` | Admin can manage customers |
 
 ---
 
@@ -233,18 +234,3 @@ Follow this end-to-end workflow to test all application capabilities:
 
 ---
 
-## Limitations
-
-- **No Live Payment Gateway**: The platform models a manual payment verification workflow (bank transfer / manual settlement). It does not integrate automated payment gateways (e.g., Stripe, PayPal).
-- **Single Base Currency**: Currency amounts are formatted in Euros (€) by default.
-- **Embedded Database**: Configured with SQLite for straightforward local evaluation without requiring external database provisioning.
-
----
-
-## Future Improvements
-
-- Integration with payment gateway providers (e.g., Stripe webhooks) for instant online settlements.
-- Automated email notifications for invoice issuance, payment submission, and payment approval/rejection.
-- Exporting financial reports and invoice records to CSV/Excel.
-- Multi-currency support and automated tax/VAT calculations.
-- Configurable invoice numbering templates and company branding settings.
