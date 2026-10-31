@@ -59,98 +59,45 @@ access control, and end-to-end integration.
 
 The screenshots below provide an overview of the main application pages.
 
-```{=html}
 <table>
-```
-```{=html}
-<tr>
-```
-```{=html}
-<td align="center" width="50%">
-```
-`<strong>`{=html}Admin Dashboard`</strong>`{=html}`<br/>`{=html}
-`<img src="./screenshots/admin-dashboard.png" width="700" height="394" alt="Admin Dashboard"/>`{=html}
-```{=html}
-</td>
-```
-```{=html}
-<td align="center" width="50%">
-```
-`<strong>`{=html}Admin Invoices`</strong>`{=html}`<br/>`{=html}
-`<img src="./screenshots/admin-invoices.png" width="700" height="394" alt="Admin Invoices"/>`{=html}
-```{=html}
-</td>
-```
-```{=html}
-</tr>
-```
-```{=html}
-<tr>
-```
-```{=html}
-<td align="center" width="50%">
-```
-`<strong>`{=html}Create Invoice`</strong>`{=html}`<br/>`{=html}
-`<img src="./screenshots/create-invoices.png" width="700" height="394" alt="Create Invoice"/>`{=html}
-```{=html}
-</td>
-```
-```{=html}
-<td align="center" width="50%">
-```
-`<strong>`{=html}Customer Invoices`</strong>`{=html}`<br/>`{=html}
-`<img src="./screenshots/customer-invoices.png" width="700" height="394" alt="Customer Invoices"/>`{=html}
-```{=html}
-</td>
-```
-```{=html}
-</tr>
-```
-```{=html}
-<tr>
-```
-```{=html}
-<td align="center" width="50%">
-```
-`<strong>`{=html}Invoice Details`</strong>`{=html}`<br/>`{=html}
-`<img src="./screenshots/invoice-details.png" width="700" height="394" alt="Invoice Details"/>`{=html}
-```{=html}
-</td>
-```
-```{=html}
-<td align="center" width="50%">
-```
-`<strong>`{=html}PDF Invoice`</strong>`{=html}`<br/>`{=html}
-`<img src="./screenshots/pdf-invoice.png" width="700" height="394" alt="PDF Invoice"/>`{=html}
-```{=html}
-</td>
-```
-```{=html}
-</tr>
-```
-```{=html}
-<tr>
-```
-```{=html}
-<td align="center" width="50%">
-```
-`<strong>`{=html}Manage Customers`</strong>`{=html}`<br/>`{=html}
-`<img src="./screenshots/manage_customers.png" width="700" height="394" alt="Manage Customers"/>`{=html}
-```{=html}
-</td>
-```
-```{=html}
-<td width="50%">
-```
-```{=html}
-</td>
-```
-```{=html}
-</tr>
-```
-```{=html}
+  <tr>
+    <td align="center" width="50%">
+      <strong>Admin Dashboard</strong><br/>
+      <img src="./screenshots/admin-dashboard.png" width="700" height="394" alt="Admin Dashboard" />
+    </td>
+    <td align="center" width="50%">
+      <strong>Admin Invoices</strong><br/>
+      <img src="./screenshots/admin-invoices.png" width="700" height="394" alt="Admin Invoices" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Create Invoice</strong><br/>
+      <img src="./screenshots/create-invoices.png" width="700" height="394" alt="Create Invoice" />
+    </td>
+    <td align="center" width="50%">
+      <strong>Customer Invoices</strong><br/>
+      <img src="./screenshots/customer-invoices.png" width="700" height="394" alt="Customer Invoices" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Invoice Details</strong><br/>
+      <img src="./screenshots/invoice-details.png" width="700" height="394" alt="Invoice Details" />
+    </td>
+    <td align="center" width="50%">
+      <strong>PDF Invoice</strong><br/>
+      <img src="./screenshots/pdf-invoice.png" width="700" height="394" alt="PDF Invoice" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Manage Customers</strong><br/>
+      <img src="./screenshots/manage_customers.png" width="700" height="394" alt="Manage Customers" />
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
-```
 
 ------------------------------------------------------------------------
 
