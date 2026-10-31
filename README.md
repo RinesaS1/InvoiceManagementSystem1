@@ -32,6 +32,55 @@ This project was developed as a technical recruitment assignment to demonstrate 
 
 ---
 
+## Screenshots
+
+Below is a visual overview of the application interface:
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Admin Dashboard</strong><br/>
+      <img src="./screenshots/admin-dashboard.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="Admin Dashboard" />
+    </td>
+    <td align="center" width="50%">
+      <strong>Admin Invoices</strong><br/>
+      <img src="./screenshots/admin-invoices.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="Admin Invoices" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Create Invoice</strong><br/>
+      <img src="./screenshots/create-invoices.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="Create Invoice" />
+    </td>
+    <td align="center" width="50%">
+      <strong>Manage Customers</strong><br/>
+      <img src="./screenshots/manage_customers.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="Manage Customers" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Customer Invoices</strong><br/>
+      <img src="./screenshots/customer-invoices.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="Customer Invoices" />
+    </td>
+    <td align="center" width="50%">
+      <strong>Invoice Details</strong><br/>
+      <img src="./screenshots/invoice-details.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="Invoice Details" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>PDF Invoice</strong><br/>
+      <img src="./screenshots/pdf-invoice.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="PDF Invoice" />
+    </td>
+    <td align="center" width="50%">
+      <strong>Customer Flow</strong><br/>
+      <img src="./screenshots/customer-invoices.png" width="420" style="width: 100%; max-width: 480px; height: auto; border-radius: 8px;" alt="Customer Flow" />
+    </td>
+  </tr>
+</table>
+
+---
+
 ## Technologies Used
 
 ### Backend
@@ -48,21 +97,6 @@ This project was developed as a technical recruitment assignment to demonstrate 
 - **HTTP Client**: Axios with request/response interceptors for JWT token attachment and 401/403 status handling
 - **Internationalization**: `i18next`, `react-i18next`, and `i18next-browser-languagedetector`
 - **Styling**: Modern pure CSS3 with CSS custom properties, responsive grid/flexbox layouts, and mobile navigation
-
----
-
-## Screenshots
-
-> Place your application screenshots inside the `screenshots/` directory. Recommended captures:
-
-| Screenshot | Description |
-|---|---|
-| `screenshots/admin-dashboard.png` | Admin Dashboard with financial statistics and pending payment queue |
-| `screenshots/admin-invoices.png` | Admin invoice management table with search and status filtering |
-| `screenshots/payment-verification.png` | Admin payment review screen showing confirm and reject options |
-| `screenshots/customer-invoices.png` | Customer invoice list with status indicators and "I Have Paid" action |
-| `screenshots/invoice-details.png` | Detailed invoice view with payment submission history |
-| `screenshots/pdf-invoice.png` | Downloaded QuestPDF invoice document |
 
 ---
 
