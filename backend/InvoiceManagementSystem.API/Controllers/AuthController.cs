@@ -17,7 +17,6 @@ public class AuthController : BaseApiController
         _authService = authService;
     }
 
-    /// <summary>Regjistron një Customer të ri. Roli caktohet automatikisht si "Customer".</summary>
     [HttpPost("register")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<AuthResponseDto>), StatusCodes.Status201Created)]
@@ -35,7 +34,6 @@ public class AuthController : BaseApiController
         }
     }
 
-    /// <summary>Autentikon përdoruesin dhe kthen JWT token.</summary>
     [HttpPost("login")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<AuthResponseDto>), StatusCodes.Status200OK)]
@@ -53,7 +51,6 @@ public class AuthController : BaseApiController
         }
     }
 
-    /// <summary>Kthen informacionin e përdoruesit aktual nga JWT claims. Kërkon autentifikim.</summary>
     [HttpGet("me")]
     [Authorize]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
@@ -74,7 +71,6 @@ public class AuthController : BaseApiController
         });
     }
 
-    /// <summary>Endpoint vetëm për Admin — demonstron autorizimin bazuar në rol.</summary>
     [HttpGet("admin-test")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
@@ -89,7 +85,6 @@ public class AuthController : BaseApiController
         });
     }
 
-    /// <summary>Endpoint vetëm për Customer — demonstron autorizimin bazuar në rol.</summary>
     [HttpGet("customer-test")]
     [Authorize(Roles = "Customer")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]

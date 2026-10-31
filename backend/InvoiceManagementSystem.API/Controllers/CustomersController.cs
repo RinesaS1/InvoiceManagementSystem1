@@ -9,10 +9,6 @@ using InvoiceManagementSystem.API.Models;
 
 namespace InvoiceManagementSystem.API.Controllers;
 
-/// <summary>
-/// CustomersController — Menaxhimi i klientëve nga administratori.
-/// Qasje: VETËM ADMIN.
-/// </summary>
 [Route("api/customers")]
 [Authorize(Roles = "Admin")]
 public class CustomersController : BaseApiController
@@ -28,9 +24,6 @@ public class CustomersController : BaseApiController
         _context = context;
     }
 
-    /// <summary>
-    /// Merr të gjithë klientët e regjistruar në sistem me numrin e faturave të tyre.
-    /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<CustomerDto>>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -41,7 +34,6 @@ public class CustomersController : BaseApiController
 
         var customerIds = customers.Select(c => c.Id).ToList();
 
-        // Numri i faturave për secilin klient
         var invoiceCounts = await _context.Invoices
             .Where(i => customerIds.Contains(i.CustomerId))
             .GroupBy(i => i.CustomerId)
@@ -63,9 +55,6 @@ public class CustomersController : BaseApiController
         return OkResponse<IEnumerable<CustomerDto>>(result);
     }
 
-    /// <summary>
-    /// Merr të dhënat e një klienti specifik sipas ID-së.
-    /// </summary>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponse<CustomerDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<CustomerDto>), StatusCodes.Status404NotFound)]

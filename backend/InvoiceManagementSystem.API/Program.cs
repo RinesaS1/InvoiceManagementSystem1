@@ -16,7 +16,6 @@ builder.Services.AddOpenApiDocumentation();
 
 var app = builder.Build();
 
-// Seed roles and default Admin on startup (idempotent)
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();

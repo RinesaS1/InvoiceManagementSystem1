@@ -9,13 +9,6 @@ using InvoiceManagementSystem.API.Services;
 
 namespace InvoiceManagementSystem.API.Controllers;
 
-/// <summary>
-/// InvoicesController — API endpoint-et për menaxhimin e faturave.
-///
-/// Qasja dhe të drejtat:
-/// - Admin: mund të shohë, kërkojë, filtrojë, krijojë, përditësojë dhe fshijë fatura.
-/// - Customer: mund të shohë dhe filtrojë VETËM faturat e veta.
-/// </summary>
 [Route("api/invoices")]
 public class InvoicesController : BaseApiController
 {
@@ -33,13 +26,6 @@ public class InvoicesController : BaseApiController
         _pdfService = pdfService;
     }
 
-    // ─── 1. LISTA E FATURAVE (GET /api/invoices) ─────────────────────────────
-
-    /// <summary>
-    /// Merr listën e faturave me mundësi kërkimi dhe filtrimi.
-    /// - Admin: shikon të gjitha faturat e sistemit.
-    /// - Customer: shikon VETËM faturat e veta (verifikohet në backend).
-    /// </summary>
     [HttpGet]
     [Authorize]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<InvoiceResponseDto>>), StatusCodes.Status200OK)]
@@ -60,13 +46,6 @@ public class InvoicesController : BaseApiController
         return OkResponse(invoices);
     }
 
-    // ─── 2. DETAJET E NJË FATURE (GET /api/invoices/{id}) ─────────────────────
-
-    /// <summary>
-    /// Merr detajet e një fature sipas ID-së.
-    /// - Admin: mund të shohë çdo faturë.
-    /// - Customer: mund të shohë VETËM faturën e tij (verifikim pronësie në backend).
-    /// </summary>
     [HttpGet("{id:int}")]
     [Authorize]
     [ProducesResponseType(typeof(ApiResponse<InvoiceResponseDto>), StatusCodes.Status200OK)]
@@ -87,12 +66,6 @@ public class InvoicesController : BaseApiController
         return OkResponse(invoice);
     }
 
-    // ─── 3. KRIJIMI I FATURËS (POST /api/invoices) ───────────────────────────
-
-    /// <summary>
-    /// Krijon një faturë të re për një klient ekzistues.
-    /// Qasje: VETËM ADMIN. Klientët nuk mund të krijojnë fatura.
-    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<InvoiceResponseDto>), StatusCodes.Status201Created)]
@@ -112,12 +85,6 @@ public class InvoicesController : BaseApiController
         }
     }
 
-    // ─── 4. PËRDITËSIMI I FATURËS (PUT /api/invoices/{id}) ───────────────────
-
-    /// <summary>
-    /// Përditëson të dhënat e një fature ekzistuese.
-    /// Qasje: VETËM ADMIN. Klientët nuk mund të modifikojnë fatura.
-    /// </summary>
     [HttpPut("{id:int}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<InvoiceResponseDto>), StatusCodes.Status200OK)]
@@ -144,13 +111,6 @@ public class InvoicesController : BaseApiController
         }
     }
 
-    // ─── 5. FSHIRJA E FATURËS (DELETE /api/invoices/{id}) ─────────────────────
-
-    /// <summary>
-    /// Fshin një faturë ekzistuese.
-    /// Qasje: VETËM ADMIN.
-    /// Rregull: Fatura mund të fshihet vetëm nëse është e papaguar dhe pa pagesa të konfirmuara.
-    /// </summary>
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
@@ -175,13 +135,6 @@ public class InvoicesController : BaseApiController
         }
     }
 
-    // ─── 6. NJOFTIMI I PAGESËS NGA KLIENTI (POST /api/invoices/{id}/payment-request) ──
-
-    /// <summary>
-    /// Klienti njofton se ka kryer pagesën ("I Have Paid").
-    /// Krijon një rekord pagese me statusin Pending që pret verifikimin nga Admin.
-    /// Qasje: Klienti për faturën e tij (verifikohet në backend).
-    /// </summary>
     [HttpPost("{id:int}/payment-request")]
     [Authorize]
     [ProducesResponseType(typeof(ApiResponse<PaymentResponseDto>), StatusCodes.Status201Created)]
@@ -211,14 +164,6 @@ public class InvoicesController : BaseApiController
         }
     }
 
-    // ─── 7. SHKARKIMI I FATURËS NË PDF (GET /api/invoices/{id}/pdf) ───────────
-
-    /// <summary>
-    /// Gjeneron dhe shkarkon faturën si dokument profesional PDF.
-    /// - Admin: mund të shkarkojë çdo faturë.
-    /// - Customer: mund të shkarkojë VETËM faturën e tij (verifikohet në backend).
-    /// Të dhënat lexohen nga baza e të dhënave, jo nga frontendi.
-    /// </summary>
     [HttpGet("{id:int}/pdf")]
     [Authorize]
     [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]

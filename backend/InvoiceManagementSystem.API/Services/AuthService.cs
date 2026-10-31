@@ -43,7 +43,6 @@ public class AuthService : IAuthService
                 $"Regjistrimi dështoi: {string.Join(", ", errors)}");
         }
 
-        // New registrations always get the Customer role — never Admin
         await _userManager.AddToRoleAsync(user, "Customer");
 
         return await BuildAuthResponseAsync(user);
@@ -99,7 +98,6 @@ public class AuthService : IAuthService
 
         expiresAt = DateTime.UtcNow.AddMinutes(expiresInMinutes);
 
-        // Claims embedded in the token; readable by client but not forgeable
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),

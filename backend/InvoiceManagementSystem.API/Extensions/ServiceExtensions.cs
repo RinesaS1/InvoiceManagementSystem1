@@ -48,10 +48,6 @@ public static class ServiceExtensions
         return services;
     }
 
-    /// <summary>
-    /// Configures JWT Bearer Authentication.
-    /// Every protected request must include: Authorization: Bearer {token}
-    /// </summary>
     public static IServiceCollection AddJwtAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)

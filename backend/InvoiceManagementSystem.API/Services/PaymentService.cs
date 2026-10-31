@@ -7,11 +7,6 @@ using InvoiceManagementSystem.API.Models.Enums;
 
 namespace InvoiceManagementSystem.API.Services;
 
-/// <summary>
-/// PaymentService — Zbatimi i logjikës së biznesit për verifikimin e pagesave.
-/// Kjo klasë nuk bën pagesa bankare reale, por menaxhon fluksin manual të konfirmimit:
-/// Klienti paraqet njoftimin → Admini e shqyrton → Konfirmon ose Refuzon.
-/// </summary>
 public class PaymentService : IPaymentService
 {
     private readonly AppDbContext _context;
@@ -25,8 +20,6 @@ public class PaymentService : IPaymentService
         _userManager = userManager;
     }
 
-    // ─── 1. KËRKESË PAGESE NGA KLIENTI ───────────────────────────────────────
-
     public async Task<PaymentResponseDto> RequestPaymentAsync(int invoiceId, string currentUserId)
     {
         var invoice = await _context.Invoices
@@ -38,19 +31,16 @@ public class PaymentService : IPaymentService
             throw new KeyNotFoundException($"Fatura me ID {invoiceId} nuk u gjet.");
         }
 
-        // SIGURI: Klienti mund të paraqesë pagesë VETËM për faturën e tij
         if (invoice.CustomerId != currentUserId)
         {
             throw new UnauthorizedAccessException("Nuk keni autorizim të paraqitni pagesë për faturën e një klienti tjetër.");
         }
 
-        // Fatura nuk mund të paguhet nëse është tashmë e shlyer
         if (invoice.Status == InvoiceStatus.Paid)
         {
             throw new InvalidOperationException("Kjo faturë është shlyer (Paid) tashmë.");
         }
 
-        // Parandalo kërkesa të dyfishta në pritje për të njëjtën faturë
         var hasPendingPayment = await _context.Payments
             .AnyAsync(p => p.InvoiceId == invoiceId && p.Status == PaymentStatus.Pending);
 
@@ -75,8 +65,6 @@ public class PaymentService : IPaymentService
         return MapToDto(payment);
     }
 
-    // ─── 2. LISTA E PAGESAVE NË PRITJE (ADMIN) ──────────────────────────────
-
     public async Task<IEnumerable<PaymentResponseDto>> GetPendingPaymentsAsync()
     {
         var payments = await _context.Payments
@@ -90,8 +78,6 @@ public class PaymentService : IPaymentService
 
         return payments.Select(MapToDto);
     }
-
-    // ─── 3. VERIFIKIMI DHE KONFIRMIMI NGA ADMIN ─────────────────────────────
 
     public async Task<PaymentResponseDto> VerifyPaymentAsync(int paymentId, string adminId)
     {
@@ -109,7 +95,6 @@ public class PaymentService : IPaymentService
                 throw new KeyNotFoundException($"Paraqitja e pagesës me ID {paymentId} nuk u gjet.");
             }
 
-            // Parandalo përpunimin e një kërkese më shumë se një herë
             if (payment.Status != PaymentStatus.Pending)
             {
                 throw new InvalidOperationException($"Kjo kërkesë pagese nuk mund të konfirmohet sepse është tashmë me statusin '{payment.Status}'.");
@@ -117,14 +102,12 @@ public class PaymentService : IPaymentService
 
             var admin = await _userManager.FindByIdAsync(adminId);
 
-            // 1. Përditëso rekord-in e pagesës
             payment.Status = PaymentStatus.Confirmed;
             payment.VerifiedAt = DateTime.UtcNow;
             payment.VerifiedById = adminId;
             payment.VerifiedBy = admin;
             payment.UpdatedAt = DateTime.UtcNow;
 
-            // 2. Fatura lidhëse bëhet Paid
             payment.Invoice.Status = InvoiceStatus.Paid;
             payment.Invoice.UpdatedAt = DateTime.UtcNow;
 
@@ -139,8 +122,6 @@ public class PaymentService : IPaymentService
             throw;
         }
     }
-
-    // ─── 4. REFUZIMI NGA ADMIN ME ARSYE ─────────────────────────────────────
 
     public async Task<PaymentResponseDto> RejectPaymentAsync(int paymentId, string rejectionReason, string adminId)
     {
@@ -163,7 +144,6 @@ public class PaymentService : IPaymentService
                 throw new KeyNotFoundException($"Paraqitja e pagesës me ID {paymentId} nuk u gjet.");
             }
 
-            // Parandalo përpunimin e një kërkese më shumë se një herë
             if (payment.Status != PaymentStatus.Pending)
             {
                 throw new InvalidOperationException($"Kjo kërkesë pagese nuk mund të refuzohet sepse është tashmë me statusin '{payment.Status}'.");
@@ -171,7 +151,6 @@ public class PaymentService : IPaymentService
 
             var admin = await _userManager.FindByIdAsync(adminId);
 
-            // 1. Përditëso rekord-in e pagesës
             payment.Status = PaymentStatus.Rejected;
             payment.RejectionReason = rejectionReason.Trim();
             payment.VerifiedAt = DateTime.UtcNow;
@@ -179,7 +158,6 @@ public class PaymentService : IPaymentService
             payment.VerifiedBy = admin;
             payment.UpdatedAt = DateTime.UtcNow;
 
-            // 2. Fatura lidhëse MBETET Unpaid
             payment.Invoice.Status = InvoiceStatus.Unpaid;
             payment.Invoice.UpdatedAt = DateTime.UtcNow;
 
@@ -194,8 +172,6 @@ public class PaymentService : IPaymentService
             throw;
         }
     }
-
-    // ─── MAPPING HELPER ─────────────────────────────────────────────────────
 
     private static PaymentResponseDto MapToDto(Payment payment) => new()
     {

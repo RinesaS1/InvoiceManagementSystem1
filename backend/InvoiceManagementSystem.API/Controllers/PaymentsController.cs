@@ -7,10 +7,6 @@ using InvoiceManagementSystem.API.Services;
 
 namespace InvoiceManagementSystem.API.Controllers;
 
-/// <summary>
-/// PaymentsController — Menaxhon shqyrtimin dhe verifikimin e pagesave nga Admin.
-/// Ky sistem nuk kryen pagesa direkte bankare, por verifikon paraqitjet manuale.
-/// </summary>
 [Route("api/payments")]
 public class PaymentsController : BaseApiController
 {
@@ -21,12 +17,6 @@ public class PaymentsController : BaseApiController
         _paymentService = paymentService;
     }
 
-    // ─── 1. LISTA E PAGESAVE NË PRITJE (GET /api/payments/pending) ───────────
-
-    /// <summary>
-    /// Merr të gjitha paraqitjet e pagesave që janë në pritje të shqyrtimit (Pending).
-    /// Qasje: VETËM ADMIN.
-    /// </summary>
     [HttpGet("pending")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<PaymentResponseDto>>), StatusCodes.Status200OK)]
@@ -38,15 +28,6 @@ public class PaymentsController : BaseApiController
         return OkResponse(pendingPayments);
     }
 
-    // ─── 2. KONFIRMIMI I PAGESËS (PATCH /api/payments/{id}/verify) ───────────
-
-    /// <summary>
-    /// Admin konfirmon pagesën e pranuar.
-    /// - Statusi i pagesës bëhet Confirmed.
-    /// - Fatura e lidhur bëhet Paid.
-    /// - Regjistrohet data dhe administratori verifikues.
-    /// Qasje: VETËM ADMIN.
-    /// </summary>
     [HttpPatch("{id:int}/verify")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<PaymentResponseDto>), StatusCodes.Status200OK)]
@@ -72,16 +53,6 @@ public class PaymentsController : BaseApiController
         }
     }
 
-    // ─── 3. REFUZIMI I PAGESËS (PATCH /api/payments/{id}/reject) ─────────────
-
-    /// <summary>
-    /// Admin refuzon pagesën duke dhënë një arsye të qartë.
-    /// - Statusi i pagesës bëhet Rejected me RejectionReason.
-    /// - Fatura e lidhur MBETET Unpaid.
-    /// - Regjistrohet data dhe administratori verifikues.
-    /// - Klienti do të ketë mundësi të paraqesë pagesë të re.
-    /// Qasje: VETËM ADMIN.
-    /// </summary>
     [HttpPatch("{id:int}/reject")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<PaymentResponseDto>), StatusCodes.Status200OK)]

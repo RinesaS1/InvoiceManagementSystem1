@@ -8,10 +8,6 @@ using InvoiceManagementSystem.API.Models.Enums;
 
 namespace InvoiceManagementSystem.API.Services;
 
-/// <summary>
-/// InvoiceService — Implementimi i logjikës së biznesit për faturat.
-/// Zbaton rregullat e sigurisë, verifikimin e pronësisë, dhe kufizimet e modifikimit.
-/// </summary>
 public class InvoiceService : IInvoiceService
 {
     private readonly AppDbContext _context;
@@ -25,8 +21,6 @@ public class InvoiceService : IInvoiceService
         _userManager = userManager;
     }
 
-    // ─── MARRJA E FATURAVE (LISTË) ──────────────────────────────────────────
-
     public async Task<IEnumerable<InvoiceResponseDto>> GetInvoicesAsync(
         string currentUserId,
         bool isAdmin,
@@ -38,19 +32,16 @@ public class InvoiceService : IInvoiceService
             .AsNoTracking()
             .AsQueryable();
 
-        // Security: non-admin users can only see their own invoices
         if (!isAdmin)
         {
             query = query.Where(i => i.CustomerId == currentUserId);
         }
 
-        // Filtri sipas statusit (Unpaid, Paid)
         if (status.HasValue)
         {
             query = query.Where(i => i.Status == status.Value);
         }
 
-        // Kërkimi me tekst (numër fature ose të dhëna të klientit)
         if (!string.IsNullOrWhiteSpace(search))
         {
             var term = search.Trim().ToLower();
@@ -68,8 +59,6 @@ public class InvoiceService : IInvoiceService
         return invoices.Select(MapToDto);
     }
 
-    // ─── DETAJET E NJË FATURE ───────────────────────────────────────────────
-
     public async Task<InvoiceResponseDto?> GetInvoiceByIdAsync(
         int id,
         string currentUserId,
@@ -85,7 +74,6 @@ public class InvoiceService : IInvoiceService
         if (invoice == null)
             return null;
 
-        // Security: customer can only view their own invoice; return null to avoid revealing other invoices
         if (!isAdmin && invoice.CustomerId != currentUserId)
         {
             return null;
@@ -93,8 +81,6 @@ public class InvoiceService : IInvoiceService
 
         return MapToDto(invoice);
     }
-
-    // ─── ENTITETI PËR PDF OSE LOGJIKË TË BRENDSHME ──────────────────────────
 
     public async Task<Invoice?> GetInvoiceEntityAsync(
         int id,
@@ -109,7 +95,6 @@ public class InvoiceService : IInvoiceService
         if (invoice == null)
             return null;
 
-        // Security: customer can only download their own invoice
         if (!isAdmin && invoice.CustomerId != currentUserId)
         {
             return null;
@@ -118,11 +103,8 @@ public class InvoiceService : IInvoiceService
         return invoice;
     }
 
-    // ─── KRIJIMI I FATURËS (ADMIN) ──────────────────────────────────────────
-
     public async Task<InvoiceResponseDto> CreateInvoiceAsync(CreateInvoiceDto dto)
     {
-        // 1. Verifiko nëse InvoiceNumber është unik
         var numberExists = await _context.Invoices
             .AnyAsync(i => i.InvoiceNumber == dto.InvoiceNumber);
 
@@ -131,14 +113,12 @@ public class InvoiceService : IInvoiceService
             throw new InvalidOperationException($"Numri i faturës '{dto.InvoiceNumber}' ekziston tashmë në sistem.");
         }
 
-        // 2. Verifiko nëse klienti ekziston
         var customer = await _userManager.FindByIdAsync(dto.CustomerId);
         if (customer == null)
         {
             throw new InvalidOperationException("Klienti i specifikuar nuk u gjet.");
         }
 
-        // 3. Validimi i datave dhe shumës
         if (dto.DueDate < dto.IssueDate)
         {
             throw new InvalidOperationException("Data e skadencës nuk mund të jetë më e hershme se data e lëshimit.");
@@ -158,20 +138,17 @@ public class InvoiceService : IInvoiceService
             IssueDate = dto.IssueDate,
             DueDate = dto.DueDate,
             Notes = dto.Notes?.Trim(),
-            Status = InvoiceStatus.Unpaid, // Fatura e re është gjithmonë Unpaid
+            Status = InvoiceStatus.Unpaid,
             CreatedAt = DateTime.UtcNow
         };
 
         _context.Invoices.Add(invoice);
         await _context.SaveChangesAsync();
 
-        // Ngarko të dhënat e klientit për përgjigjen
         invoice.Customer = customer;
 
         return MapToDto(invoice);
     }
-
-    // ─── PËRDITËSIMI I FATURËS (ADMIN) ──────────────────────────────────────
 
     public async Task<InvoiceResponseDto> UpdateInvoiceAsync(int id, UpdateInvoiceDto dto)
     {
@@ -184,7 +161,6 @@ public class InvoiceService : IInvoiceService
             throw new KeyNotFoundException($"Fatura me ID {id} nuk u gjet.");
         }
 
-        // 1. Verifiko nëse numri i ri i faturës është unik (përveç faturës aktuale)
         var numberExists = await _context.Invoices
             .AnyAsync(i => i.InvoiceNumber == dto.InvoiceNumber && i.Id != id);
 
@@ -193,7 +169,6 @@ public class InvoiceService : IInvoiceService
             throw new InvalidOperationException($"Numri i faturës '{dto.InvoiceNumber}' po përdoret nga një faturë tjetër.");
         }
 
-        // 2. Validimi i datave dhe shumës
         if (dto.DueDate < dto.IssueDate)
         {
             throw new InvalidOperationException("Data e skadencës nuk mund të jetë më e hershme se data e lëshimit.");
@@ -204,7 +179,6 @@ public class InvoiceService : IInvoiceService
             throw new InvalidOperationException("Shuma e faturës duhet të jetë më e madhe se zero.");
         }
 
-        // Përditëso fushat
         invoice.InvoiceNumber = dto.InvoiceNumber.Trim();
         invoice.Description = dto.Description?.Trim();
         invoice.Amount = dto.Amount;
@@ -219,8 +193,6 @@ public class InvoiceService : IInvoiceService
         return MapToDto(invoice);
     }
 
-    // ─── FSHIRJA E FATURËS (ADMIN) ──────────────────────────────────────────
-
     public async Task DeleteInvoiceAsync(int id)
     {
         var invoice = await _context.Invoices
@@ -232,14 +204,11 @@ public class InvoiceService : IInvoiceService
             throw new KeyNotFoundException($"Fatura me ID {id} nuk u gjet.");
         }
 
-        // RREGULL BIZNESI: Fshi vetëm kur është e përshtatshme
-        // 1. Nuk mund të fshihet nëse është e paguar
         if (invoice.Status == InvoiceStatus.Paid)
         {
             throw new InvalidOperationException("Një faturë e shlyer (Paid) nuk mund të fshihet për të ruajtur integritetin financiar.");
         }
 
-        // 2. Nuk mund të fshihet nëse ka pagesë të konfirmuar
         if (invoice.Payments.Any(p => p.Status == PaymentStatus.Confirmed))
         {
             throw new InvalidOperationException("Fatura nuk mund të fshihet sepse ka pagesa të konfirmuara në sistem.");
@@ -248,8 +217,6 @@ public class InvoiceService : IInvoiceService
         _context.Invoices.Remove(invoice);
         await _context.SaveChangesAsync();
     }
-
-    // ─── MAPPING HELPER ─────────────────────────────────────────────────────
 
     private static InvoiceResponseDto MapToDto(Invoice invoice) => new()
     {

@@ -3,20 +3,6 @@ using InvoiceManagementSystem.API.Models;
 
 namespace InvoiceManagementSystem.API.Data;
 
-/// <summary>
-/// DbSeeder — Inicializon bazën e të dhënave me të dhëna fillestare.
-///
-/// Çfarë bën:
-///   1. Krijon rolet "Admin" dhe "Customer" nëse nuk ekzistojnë.
-///   2. Krijon llogarinë fillestare Admin nëse nuk ka asnjë Admin.
-///
-/// SIGURI:
-///   - Kredencialet e Admin-it lexohen nga konfigurimi / variablat e mjedisit.
-///   - Asnjë fjalëkalim nuk hardkodohet në kod.
-///   - Ky seeder ekzekutohet vetëm nëse Admin nuk ekziston.
-///   - Në prodhim, caktoni variablat e mjedisit:
-///       AdminSeed__Email, AdminSeed__Password, AdminSeed__FullName
-/// </summary>
 public static class DbSeeder
 {
     public static async Task SeedAsync(
@@ -28,8 +14,6 @@ public static class DbSeeder
         await SeedRolesAsync(roleManager, logger);
         await SeedAdminAsync(userManager, configuration, logger);
     }
-
-    // ─── SEED ROLES ──────────────────────────────────────────────────────────
 
     private static async Task SeedRolesAsync(
         RoleManager<IdentityRole> roleManager,
@@ -47,19 +31,15 @@ public static class DbSeeder
         }
     }
 
-    // ─── SEED ADMIN ───────────────────────────────────────────────────────────
-
     private static async Task SeedAdminAsync(
         UserManager<ApplicationUser> userManager,
         IConfiguration configuration,
         ILogger logger)
     {
-        // Lexo kredencialet nga konfigurimi (appsettings / env variables)
         var email    = configuration["AdminSeed:Email"];
         var password = configuration["AdminSeed:Password"];
         var fullName = configuration["AdminSeed:FullName"] ?? "Administrator";
 
-        // Nëse seksioni AdminSeed mungon, kalon pa bërë asgjë
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
         {
             logger.LogWarning(
@@ -69,7 +49,6 @@ public static class DbSeeder
             return;
         }
 
-        // Nëse ky email ekziston tashmë, mos krijo sërish
         var existingAdmin = await userManager.FindByEmailAsync(email);
         if (existingAdmin is not null)
         {
@@ -83,7 +62,6 @@ public static class DbSeeder
             Email     = email,
             FullName  = fullName,
             CreatedAt = DateTime.UtcNow,
-            // Konfirmo email-in automatikisht për Admin
             EmailConfirmed = true
         };
 
