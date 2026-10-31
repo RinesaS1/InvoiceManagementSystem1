@@ -1,0 +1,20 @@
+{
+  "Jwt": {
+    "Key": "Invoice$Mgmt$Dev$Secret$Key$2026!LocalOnly#DoNotUseInProduction",
+    "Issuer": "InvoiceManagementSystem",
+    "Audience": "InvoiceManagementSystemUsers",
+    "ExpiresInMinutes": 120
+  },
+  "AdminSeed": {
+    "Email": "admin@example.com",
+    "Password": "AdminPassword123!",
+    "FullName": "System Administrator"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
+
